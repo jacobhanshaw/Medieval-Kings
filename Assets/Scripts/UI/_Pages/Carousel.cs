@@ -89,20 +89,22 @@ namespace UnityEngine.UI.Extensions
 			if (PrevButton)
 				PrevButton.onClick.AddListener(() => { PreviousScreen(); });
 
-			UpdateLayout(Screen.width > Screen.height);
+			//UpdateLayout(Screen.width > Screen.height);
 			pagesScript.ContentUpdatedListeners += Refresh;
 			RotationUpdater.Instance.RotationChangedListeners += UpdateLayout;
+		}
+
+		public void PrepareForPresentation() {
+			UpdateLayout(Screen.width > Screen.height);
 		}
 
 		//separates pages
 		private void DistributePages()
 		{
 			float offset = 0;
-			Vector2 farCorner = Camera.main.ViewportToWorldPoint(new Vector2(1.0f, 1.0f));
-			float step = Mathf.Max(farCorner.x, farCorner.y);
+			float step = Mathf.Max(Screen.width , Screen.height);
 
 			float dimension = 0;
-
 			float currentXPosition = 0;
 
 			for (int i = 0; i < _screensContainer.transform.childCount; i++)

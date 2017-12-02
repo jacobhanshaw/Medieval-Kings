@@ -3,42 +3,42 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-public class MenuBackButtonScript : MonoBehaviour 
+public class BackButtonScript : MonoBehaviour 
 {
 	bool subscribed;
 	bool isBackClick;
 	Button backButton;
-	List<Delegates.MenuScreenType> screenQueue;
+	List<Delegates.ScreenType> screenQueue;
 
 	void Start () 
 	{
 		backButton = GetComponent<Button>();
 		backButton.interactable = false;
 
-		screenQueue = new List<Delegates.MenuScreenType>();
-		screenQueue.Add(Delegates.MenuScreenType.HOME);
+		screenQueue = new List<Delegates.ScreenType>();
+		screenQueue.Add(Delegates.ScreenType.HOME);
 
-		Delegates.Instance.MenuScreenSelectListeners += UpdateQueue;
+		Delegates.Instance.ScreenSelectListeners += UpdateQueue;
 	}
 
 	void OnDestroy ()
 	{
 		if(Delegates.Instance != null)
-			Delegates.Instance.MenuScreenSelectListeners -= UpdateQueue;
+			Delegates.Instance.ScreenSelectListeners -= UpdateQueue;
 	}
 
 	public void OnClick ()
 	{
 		isBackClick = true;
-		Delegates.MenuScreenType prevScreen = screenQueue[screenQueue.Count - 2];
+		Delegates.ScreenType prevScreen = screenQueue[screenQueue.Count - 2];
 		screenQueue.RemoveAt(screenQueue.Count - 1);
-		if(prevScreen == Delegates.MenuScreenType.HOME)
+		if(prevScreen == Delegates.ScreenType.HOME)
 			backButton.interactable = false;
 		
-		Delegates.Instance.MenuScreenSelectListeners(prevScreen);
+		Delegates.Instance.ScreenSelectListeners(prevScreen);
 	}
 
-	void UpdateQueue (Delegates.MenuScreenType screenType)
+	void UpdateQueue (Delegates.ScreenType screenType)
 	{
 		if(isBackClick)
 			isBackClick = false;

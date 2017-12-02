@@ -7,7 +7,7 @@ public class PageScript : MonoBehaviour
 	GridLayoutGroup gridLayoutGroup;
 	protected List<CellScript> cellScripts { get; private set; }
 
-	public int cellsPerPage { get; private set; }
+	public int cellsPerPage { get; protected set; }
 
 	void Awake ()
 	{
@@ -15,8 +15,10 @@ public class PageScript : MonoBehaviour
 		cellScripts = new List<CellScript> ();
 	}
 
-	public void UpdateLayout(GameObject cellPrefab, Vector2 minPadding, Vector2 minSpacing)
+	public virtual void UpdateLayout(GameObject cellPrefab, Vector2 minPadding, Vector2 minSpacing)
 	{
+		Debug.Log("Updating layout in page");
+
 		Rect pageRect = ((RectTransform)transform).rect;
 
 		int cellsWide = ItemCount(pageRect.width,  gridLayoutGroup.cellSize.x, (int)minPadding.x, minSpacing.x);
@@ -71,7 +73,7 @@ public class PageScript : MonoBehaviour
 	{
 	}
 
-	private void AdjustCellCount(GameObject cellPrefab, int difference)
+	protected virtual void AdjustCellCount(GameObject cellPrefab, int difference)
 	{
 		while(difference > 0)
 		{
@@ -79,6 +81,7 @@ public class PageScript : MonoBehaviour
 			cell.transform.SetParent(transform);
 			cell.transform.localScale = new Vector2(1.0f, 1.0f);
 			cellScripts.Add(cell.GetComponent<CellScript> ());
+
 			--difference;
 		}
 

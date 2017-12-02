@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class Delegates : Singleton<Delegates> {
 
-	// Menu Screen Select Delegate
-	public delegate void MenuScreenSelect (MenuScreenType enuScreenType);
-	public MenuScreenSelect MenuScreenSelectListeners;
+	// Screen Select Delegate
+	public delegate void ScreenSelect (ScreenType enuScreenType);
+	public ScreenSelect ScreenSelectListeners;
 
 	[SerializeField]
-	public enum MenuScreenType
+	public enum ScreenType
 	{
 		HOME,
 		INTRODUCTION,
+		DOSSIER,
+		GAME,
 		SIZE
 	}
 

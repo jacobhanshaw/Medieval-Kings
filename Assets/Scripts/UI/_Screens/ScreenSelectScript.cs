@@ -1,26 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MenuScreenSelectScript : MonoBehaviour
+public class ScreenSelectScript : MonoBehaviour
 {
-	public Delegates.MenuScreenType activateType;
+	public Delegates.ScreenType activateType;
 
 	FadeCanvasGroupScript fadeCanvasGroupScript;
 
 	void Start ()
 	{
 		fadeCanvasGroupScript = gameObject.AddComponent<FadeCanvasGroupScript> ();
-		Delegates.Instance.MenuScreenSelectListeners += Display;
+		Delegates.Instance.ScreenSelectListeners += Display;
 
 	}
 
 	void OnDestroy ()
 	{
 		if(Delegates.Instance != null)
-			Delegates.Instance.MenuScreenSelectListeners -= Display;
+			Delegates.Instance.ScreenSelectListeners -= Display;
 	}
 
-	public void Display (Delegates.MenuScreenType screenType)
+	public void Display (Delegates.ScreenType screenType)
 	{
 		fadeCanvasGroupScript.Show(screenType == activateType);
 	}
