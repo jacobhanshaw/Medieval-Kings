@@ -3,17 +3,87 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Character {
-	public string information = "My liege, our advance scouts report that the Hordes of Hidlegaard the Dread are again threatening our borders!\n{Oh no! What should I do?}\nAs your forebears have done, you must assume the mantle of Imperator and assemble an army to repeal the barbarian queen and her invasion force.\n{But our country has no standing army! How can we levy troops?}\nYou must call a War Council with your sworn allies and gain their support. If you can persuade them to join in our cause they will raise troops to supplement our army.\n{That sounds easy enough…}\nBut be warned! The loyalty of these great lords and ladies is .. precarious .. and if you offend them they could decide you are an unworthy ally and pledge their support to Hildegaard’s invasion force.\n{That’s terrible! But also, I don’t know these people. How will I know what to say or not to say?}\nI have put together these dossiers on each of your guests .. read them carefully! They should help you navigate the difficult waters of high-stakes dinner diplomacy .. \n{Thank you, my loyal advisor.}\nAnd remember – you only need enough soldiers to defeat the invading army! You can opt to not talk with anyone at the table, which will leave them neutral in the upcoming battle.\n{Alright alright, I get it. Show me these dossiers already!}";
 
-	public Character(int pageNumber) {
+	public enum CharacterEnum {
+		LordByron,
+		Size
+	}
 
-		string numberString = pageNumber.ToString();
-		numberString += numberString;
-		numberString += numberString;
-		numberString += numberString;
-		numberString += numberString;
-		numberString += numberString;
+	public enum CharacterState {
+		Enemy,
+		Neutral,
+		Friend,
+		Size
+	}
 
-		information = numberString + information;
+	public string name { get; private set; }
+	public float loyalty { get; private set; }
+	public int armySize { get; private set; }
+
+	public string dossierInformation;
+	public List<Dialogue> dialogues;
+
+	public CharacterState characterState { get { return loyalty > 0.5 ? CharacterState.Friend : (loyalty > -0.5 ? CharacterState.Neutral : CharacterState.Enemy); }}
+	public string imageFileName { get { return name.Replace(" ", ""); }}
+
+	public Character(CharacterEnum characterEnum) {
+		name = GetName(characterEnum);
+		loyalty = GetInitialLoyalty(characterEnum);
+		armySize = GetArmySize(characterEnum);
+		dossierInformation = GetDossierInformation(characterEnum);
+		dialogues = GetDialogues(characterEnum);
+	}
+
+	public void UpdateLoyalty(float aLoyalty) {
+		CharacterState oldState = characterState;
+		loyalty = aLoyalty;
+		Delegates.Instance.LoyaltyChangedListeners(this);
+		if(oldState != characterState)
+			Delegates.Instance.ArmyChangedListeners(this, oldState);
+	}
+
+	string GetName(CharacterEnum characterEnum) {
+		switch(characterEnum) {
+		case CharacterEnum.LordByron:
+			return "Lord Byron";
+		default:
+			throw new UnityException("WRONG");
+		}
+	}
+
+	int GetArmySize(CharacterEnum characterEnum) {
+		switch(characterEnum) {
+		case CharacterEnum.LordByron:
+			return LordByron.ArmySize();
+		default:
+			throw new UnityException("WRONG");
+		}
+	}
+
+	float GetInitialLoyalty(CharacterEnum characterEnum) {
+		switch(characterEnum) {
+		case CharacterEnum.LordByron:
+			return LordByron.InitialLoyalty();
+		default:
+			throw new UnityException("WRONG");
+		}
+	}
+
+	string GetDossierInformation(CharacterEnum characterEnum) {
+		switch(characterEnum) {
+		case CharacterEnum.LordByron:
+			return LordByron.DossierInformation();
+		default:
+			throw new UnityException("WRONG");
+		}
+	}
+
+	List<Dialogue> GetDialogues(CharacterEnum characterEnum) {
+		switch(characterEnum) {
+		case CharacterEnum.LordByron:
+			return LordByron.Dialogues();
+		default:
+			throw new UnityException("WRONG");
+		}
 	}
 }

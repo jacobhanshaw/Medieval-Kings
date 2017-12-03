@@ -5,14 +5,11 @@ using UnityEngine.UI;
 
 public class LordDisplayScript : MonoBehaviour {
 
-	public Image lordImage;
+	public LoadImageScript loadImageScript;
 	public LoyaltyWheelScript loyaltyWheelScript;
 
 	public void UpdateWithLord(Character lord) {
-		
-	}
-
-	public void UpdateLoyalty(float loyalty) {
-		loyaltyWheelScript.SetLoyalty(loyalty);
+		loadImageScript.LoadCharacterImage(lord.imageFileName);
+		loyaltyWheelScript.SetCharacter(lord);
 	}
 }

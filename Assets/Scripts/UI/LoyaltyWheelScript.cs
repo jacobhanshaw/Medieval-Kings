@@ -5,6 +5,7 @@ using UnityEngine;
 public class LoyaltyWheelScript : MonoBehaviour {
 
 	public Transform pointerHolder;
+	private Character character;
 
 	const float SPEED = 1f;
 	const float MIN_ANGLE =  90;
@@ -31,7 +32,26 @@ public class LoyaltyWheelScript : MonoBehaviour {
 
 	bool done = true;
 
-	public void SetLoyalty(float loyalty) {
+	void OnDestroy ()
+	{
+		if(Delegates.Instance != null)
+			Delegates.Instance.LoyaltyChangedListeners -= LoyaltyChanged;
+	}
+
+	public void SetCharacter(Character aCharacter) {
+		character = aCharacter;
+		SetLoyalty(character.loyalty);
+
+		Delegates.Instance.LoyaltyChangedListeners += LoyaltyChanged;
+	}
+
+	public void LoyaltyChanged(Character aCharacter) {
+		if(aCharacter == character) {
+			SetLoyalty(character.loyalty);
+		}
+	}
+
+	void SetLoyalty(float loyalty) {
 		finalLoyalty = loyalty;
 		startLoyalty = currentLoyalty;
 		overkill = (finalLoyalty - startLoyalty) * MAX_OVERKILL;

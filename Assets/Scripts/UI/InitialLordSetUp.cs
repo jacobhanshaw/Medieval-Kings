@@ -2,16 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InitialLordSetUp : MonoBehaviour {
+public class InitialLevelSetUp : MonoBehaviour {
 
 	const float MIN_SPACING = 20;
 	const float EDGE_SPACING = 20;
 
 	public GameObject lordPrefab;
 
-	public void LoadLords() {
+	void Start() {
+		Delegates.Instance.CharactersLoadedListeners += LoadLords;
+	}
+		
+	void OnDestroy ()
+	{
+		if(Delegates.Instance != null)
+			Delegates.Instance.CharactersLoadedListeners -= LoadLords;
+	}
 
-		int lordCount = GameManager.Instance.characters.Length;
+	public void LoadLords(Character[] characters) {
+		int lordCount = characters.Length;
 		float rectWidth = ((RectTransform)transform).rect.width;
 		float totalSpace = rectWidth - EDGE_SPACING;
 		float lordWidth = ((RectTransform)lordPrefab.transform).rect.width;
@@ -22,7 +31,6 @@ public class InitialLordSetUp : MonoBehaviour {
 		float totalPadding = totalSpace - (lordCount * lordWidth * scale);
 		float xPadding = totalPadding/((float)lordCount);
 
-		LordDisplayScript[] lordDisplayScripts = new LordDisplayScript[lordCount];
 		float currentPoint = -totalSpace/2.0f + xPadding/2.0f + (lordWidth * scale)/2.0f;
 		for(int i = 0; i < lordCount; ++i) {
 			GameObject lord = Instantiate (lordPrefab) as GameObject;
@@ -33,12 +41,9 @@ public class InitialLordSetUp : MonoBehaviour {
 			anchordPosition.y = 0;
 			((RectTransform)lord.transform).anchoredPosition = anchordPosition;
 
-			lordDisplayScripts[i] = lord.GetComponent<LordDisplayScript>();
-			lordDisplayScripts[i].UpdateWithLord(GameManager.Instance.characters[i]);
+			lord.GetComponent<LordDisplayScript>().UpdateWithLord(GameManager.Instance.characters[i]);
 
 			currentPoint += xPadding + (lordWidth * scale);
 		}
-
-		GameManager.Instance.SetLordDisplayScripts(lordDisplayScripts);
 	}
 }

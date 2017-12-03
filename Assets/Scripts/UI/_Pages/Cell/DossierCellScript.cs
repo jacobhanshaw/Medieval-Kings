@@ -11,7 +11,7 @@ public class DossierCellScript : ButtonCellScript {
 
 	public void LoadWithCharacterIndex(int characterIndex) {
 		float parentHeight = ((RectTransform)gameObject.transform.parent).rect.height;
-		string fullText = GameManager.Instance.characters[characterIndex].information;
+		string fullText = GameManager.Instance.characters[characterIndex].dossierInformation;
 
 		TextGenerator textGenerator = new TextGenerator();
 		TextGenerationSettings generationSettings = dossierText.GetGenerationSettings(dossierText.rectTransform.rect.size); 
