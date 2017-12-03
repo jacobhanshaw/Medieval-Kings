@@ -9,6 +9,8 @@ public class GameManager : Singleton<GameManager> {
 	[HideInInspector]
 	private string[] names = { "Jacob", "Jingle", "Heimer", "Schmidt" };
 
+	LordDisplayScript[] lordDisplayScripts = null;
+
 	public void Reset() {
 		characters = null;
 	}
@@ -18,5 +20,9 @@ public class GameManager : Singleton<GameManager> {
 		for(int i = 0; i < characters.Length; ++i) {
 			characters[i] = new Character(i);
 		}
+	}
+
+	public void SetLordDisplayScripts(LordDisplayScript[] aLordDisplayScripts) {
+		lordDisplayScripts = aLordDisplayScripts;
 	}
 }
