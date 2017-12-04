@@ -3,31 +3,57 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager> {
-	public bool levelLoaded { get { return lordDisplayScripts != null; }}
 	[HideInInspector]
 	public Character[] characters = null;
-	[HideInInspector]
+
+	public Character advisor = new Character(Character.CharacterEnum.Advisor);
+
+	public int constantEnemyArmy = 20000;
+
 	private Character.CharacterEnum[] enums = { 
 		Character.CharacterEnum.LordByron,
 		Character.CharacterEnum.LordByron,
 		Character.CharacterEnum.LordByron
 	};
 
-	LordDisplayScript[] lordDisplayScripts = null;
+	public int friendTotalArmy { 
+		get {
+			int total = 0;
+			if(characters == null)
+				return total;
+
+			foreach(Character character in characters) {
+				if(character.characterState == Character.CharacterState.Friend)
+					total += character.armySize;
+			}
+			return total;
+		}
+	}
+
+	public int enemyTotalArmy { 
+		get {
+			int total = constantEnemyArmy;
+			if(characters == null)
+				return total;
+
+			foreach(Character character in characters) {
+				if(character.characterState == Character.CharacterState.Enemy)
+					total += character.armySize;
+			}
+			return total;
+		}
+	}
 
 	public void Reset() {
 		characters = null;
-		lordDisplayScripts = null;
+		Delegates.Instance.ArmyChangedListeners(null,Character.CharacterState.Size);
 	}
 
-	public void LoadLevel() {
+	public void LoadCharacters() {
 		characters = new Character[enums.Length];
 		for(int i = 0; i < characters.Length; ++i) {
 			characters[i] = new Character(enums[i]);
 		}
-	}
-
-	public void SetLordDisplayScripts(LordDisplayScript[] aLordDisplayScripts) {
-		lordDisplayScripts = aLordDisplayScripts;
+		Delegates.Instance.CharactersLoadedListeners(characters);
 	}
 }

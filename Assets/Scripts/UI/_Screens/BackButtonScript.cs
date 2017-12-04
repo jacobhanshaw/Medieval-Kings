@@ -8,50 +8,50 @@ public class BackButtonScript : MonoBehaviour
 	bool subscribed;
 	bool isBackClick;
 	Button backButton;
-	List<Delegates.ScreenType> screenQue;
+	List<Delegates.ScreenType> screenQueue;
 
 	void Start () 
 	{
 		backButton = GetComponent<Button>();
 		backButton.interactable = false;
 
-		screenQue = new List<Delegates.ScreenType>();
-		screenQue.Add(Delegates.ScreenType.HOME);
+		screenQueue = new List<Delegates.ScreenType>();
+		screenQueue.Add(Delegates.ScreenType.HOME);
 
-		Delegates.Instance.ScreenSelectListeners += UpdateQue;
+		Delegates.Instance.ScreenSelectListeners += UpdateQueue;
 	}
 
-	public void ResetQue() {
-		Delegates.ScreenType currentScreen = screenQue[screenQue.Count - 1];
-		screenQue = new List<Delegates.ScreenType>();
-		screenQue.Add(Delegates.ScreenType.HOME);
-		screenQue.Add(currentScreen);
+	public void ResetQueue() {
+		Delegates.ScreenType currentScreen = screenQueue[screenQueue.Count - 1];
+		screenQueue = new List<Delegates.ScreenType>();
+		screenQueue.Add(Delegates.ScreenType.HOME);
+		screenQueue.Add(currentScreen);
 	}
 
 	void OnDestroy ()
 	{
 		if(Delegates.Instance != null)
-			Delegates.Instance.ScreenSelectListeners -= UpdateQue;
+			Delegates.Instance.ScreenSelectListeners -= UpdateQueue;
 	}
 
 	public void OnClick ()
 	{
 		isBackClick = true;
-		Delegates.ScreenType prevScreen = screenQue[screenQue.Count - 2];
-		screenQue.RemoveAt(screenQue.Count - 1);
+		Delegates.ScreenType prevScreen = screenQueue[screenQueue.Count - 2];
+		screenQueue.RemoveAt(screenQueue.Count - 1);
 		if(prevScreen == Delegates.ScreenType.HOME)
 			backButton.interactable = false;
 		
 		Delegates.Instance.ScreenSelectListeners(prevScreen);
 	}
 
-	void UpdateQue (Delegates.ScreenType screenType)
+	void UpdateQueue (Delegates.ScreenType screenType)
 	{
 		if(isBackClick)
 			isBackClick = false;
 		else
 		{
-			screenQue.Add(screenType);
+			screenQueue.Add(screenType);
 			backButton.interactable = true;
 		}
 	}

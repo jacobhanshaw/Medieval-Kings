@@ -18,12 +18,34 @@ public static class LordByron {
 	public static List<Dialogue> Dialogues() {
 		List<Dialogue> dialogues = new List<Dialogue>();
 		DialogueResponse[] options = null;
-		string[] followUpTexts = null;
 
-		List<DialogueMoment> dialogueMomentsList = new List<DialogueMoment>();
+		List<DialogueMoment> dialogueMomentsList = null;
+
+		dialogueMomentsList = new List<DialogueMoment>();
 		dialogueMomentsList.Add(new TextDialogueMoment("Hi and stuff"));
+		dialogues.Add(new Dialogue(dialogueMomentsList.ToArray()));
+
+		dialogueMomentsList = new List<DialogueMoment>();
 		dialogueMomentsList.Add(new TextDialogueMoment("What do you think of me?"));
-		options = new DialogueResponse[]{ new DialogueResponse("Not much", -0.2f, "I see..."), new DialogueResponse("You're the best!", 0.5f) };
+		options = new DialogueResponse[]{ new DialogueResponse("You suck", -0.8f, "How dare you!?"), new DialogueResponse("Not much", -0.2f, "I see..."), new DialogueResponse("You're the best!", 0.5f) };
+		dialogueMomentsList.Add(new ResponseDialogueMoment(options));
+		dialogues.Add(new Dialogue(dialogueMomentsList.ToArray()));
+
+		dialogueMomentsList = new List<DialogueMoment>();
+		dialogueMomentsList.Add(new TextDialogueMoment("What do you think of me?"));
+		options = new DialogueResponse[]{ new DialogueResponse("You suck", -0.8f, "How dare you!?"), new DialogueResponse("Not much", -0.2f, "I see..."), new DialogueResponse("You're the best!", 0.5f) };
+		dialogueMomentsList.Add(new ResponseDialogueMoment(options));
+		dialogues.Add(new Dialogue(dialogueMomentsList.ToArray()));
+
+		dialogueMomentsList = new List<DialogueMoment>();
+		dialogueMomentsList.Add(new TextDialogueMoment("What do you think of me?"));
+		options = new DialogueResponse[]{ new DialogueResponse("You suck", -0.8f, "How dare you!?"), new DialogueResponse("Not much", -0.2f, "I see..."), new DialogueResponse("You're the best!", 0.5f) };
+		dialogueMomentsList.Add(new ResponseDialogueMoment(options));
+		dialogues.Add(new Dialogue(dialogueMomentsList.ToArray()));
+
+		dialogueMomentsList = new List<DialogueMoment>();
+		dialogueMomentsList.Add(new TextDialogueMoment("What do you think of me?"));
+		options = new DialogueResponse[]{ new DialogueResponse("You suck", -0.8f, "How dare you!?"), new DialogueResponse("Not much", -0.2f, "I see..."), new DialogueResponse("You're the best!", 0.5f) };
 		dialogueMomentsList.Add(new ResponseDialogueMoment(options));
 		dialogues.Add(new Dialogue(dialogueMomentsList.ToArray()));
 

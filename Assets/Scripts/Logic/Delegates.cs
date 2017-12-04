@@ -23,11 +23,11 @@ public class Delegates : Singleton<Delegates> {
 	public CharactersLoaded CharactersLoadedListeners;
 
 	// Character Picked Delegate
-	public delegate void CharacterPicked (Character character);
-	public CharacterPicked CharacterPickedListeners;
+	public delegate void CharacterSelected (Character character);
+	public CharacterSelected CharacterSelectedListeners;
 
 	// Load Dialogue Option Delegate
-	public delegate void LoadDialogueMoment (Character selectedCharacter, DialogueMoment dialogueMoment);
+	public delegate void LoadDialogueMoment (Character selectedCharacter, DialogueMoment dialogueMoment, bool newDialogue);
 	public LoadDialogueMoment LoadDialogueMomentListeners;
 
 	// Continue Dialogue Delegate
@@ -39,8 +39,12 @@ public class Delegates : Singleton<Delegates> {
 	public DialogResponsePicked DialogResponsePickedListeners;
 
 	// Loyalty Changed Delegate
-	public delegate void LoyaltyChanged (Character character);
+	public delegate void LoyaltyChanged (Character character, float loyaltyChange);
 	public LoyaltyChanged LoyaltyChangedListeners;
+
+	// Conversation Over Delegate
+	public delegate void ConversationOver(Character character);
+	public ConversationOver ConversationOverListeners;
 
 	// Army Changed Delegate
 	public delegate void ArmyChanged (Character character, Character.CharacterState oldState);

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Character {
 
 	public enum CharacterEnum {
+		Advisor,
 		LordByron,
 		Size
 	}
@@ -34,11 +35,16 @@ public class Character {
 		dialogues = GetDialogues(characterEnum);
 	}
 
-	public void UpdateLoyalty(float aLoyalty) {
+	public void ChangeLoyalty(float loyaltyChange) {
 		CharacterState oldState = characterState;
-		loyalty = aLoyalty;
-		Delegates.Instance.LoyaltyChangedListeners(this);
-		if(oldState != characterState)
+		loyalty += loyaltyChange;
+		if(loyalty > 1f)
+			loyalty = 1f;
+		else if(loyalty < -1f)
+			loyalty = -1f;
+		
+		Delegates.Instance.LoyaltyChangedListeners(this, loyaltyChange);
+		if(oldState != characterState && Delegates.Instance.ArmyChangedListeners != null)
 			Delegates.Instance.ArmyChangedListeners(this, oldState);
 	}
 
@@ -46,6 +52,8 @@ public class Character {
 		switch(characterEnum) {
 		case CharacterEnum.LordByron:
 			return "Lord Byron";
+		case CharacterEnum.Advisor:
+			return "Your Loyal Advisor";
 		default:
 			throw new UnityException("WRONG");
 		}
@@ -55,6 +63,8 @@ public class Character {
 		switch(characterEnum) {
 		case CharacterEnum.LordByron:
 			return LordByron.ArmySize();
+		case CharacterEnum.Advisor:
+			return Advisor.ArmySize();
 		default:
 			throw new UnityException("WRONG");
 		}
@@ -64,6 +74,8 @@ public class Character {
 		switch(characterEnum) {
 		case CharacterEnum.LordByron:
 			return LordByron.InitialLoyalty();
+		case CharacterEnum.Advisor:
+			return Advisor.InitialLoyalty();
 		default:
 			throw new UnityException("WRONG");
 		}
@@ -73,6 +85,8 @@ public class Character {
 		switch(characterEnum) {
 		case CharacterEnum.LordByron:
 			return LordByron.DossierInformation();
+		case CharacterEnum.Advisor:
+			return Advisor.DossierInformation();
 		default:
 			throw new UnityException("WRONG");
 		}
@@ -82,6 +96,8 @@ public class Character {
 		switch(characterEnum) {
 		case CharacterEnum.LordByron:
 			return LordByron.Dialogues();
+		case CharacterEnum.Advisor:
+			return Advisor.Dialogues();
 		default:
 			throw new UnityException("WRONG");
 		}
