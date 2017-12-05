@@ -15,4 +15,10 @@ public static class  Helpers
 		canvasGroup.interactable = false;
 		canvasGroup.blocksRaycasts = false;
 	}
+
+	public static float EaseInQuad(float start, float end, float value)
+	{
+		end -= start;
+		return end * value * value + start;
+	}
 }

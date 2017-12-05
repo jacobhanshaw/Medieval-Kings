@@ -2,20 +2,48 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class LordByron {
-	public static float InitialLoyalty() {
+public class LordByron : CharacterTemplate {
+	public override string Name() {
+		return "Lord Byron";
+	}
+
+	public override string ShortName() {
+		return "Lord Byron";
+	}
+
+	public override string ImageName() {
+		return "YourAdvisor";
+	}
+
+	public override float InitialLoyalty() {
 		return 0.4f;
 	}
 
-	public static int ArmySize() {
+	public override string Lands() {
+		return "Wherever the Light Touches";
+	}
+
+	public override string KnownFor() {
+		return "Holding Hands";
+	}
+
+	public override string Motto() {
+		return "Get It Done Now";
+	}
+
+	public override string Religion() {
+		return "\"Whichever has the Best Perks\"";
+	}
+
+	public override int ArmySize() {
 		return 50000;
 	}
 
-	public static string DossierInformation() {
+	public override string DossierInformation() {
 		return "I'm Lord Byron. BLAH BLAH. I think I'm all that and what not.";
 	}
 
-	public static List<Dialogue> Dialogues() {
+	public override List<Dialogue> Dialogues() {
 		List<Dialogue> dialogues = new List<Dialogue>();
 		DialogueResponse[] options = null;
 

@@ -15,6 +15,9 @@ public class Delegates : Singleton<Delegates> {
 		INTRODUCTION,
 		DOSSIER,
 		GAME,
+		LOSE,
+		SAFE,
+		VICTORY,
 		SIZE
 	}
 

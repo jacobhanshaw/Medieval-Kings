@@ -102,9 +102,9 @@ public class DialoguePanelScript : MonoBehaviour {
 		++characterPanelIndex;
 		if (characterPanelIndex >= characterPanels.Length)
 			characterPanelIndex = 0;
-		string fileName = isUser ? "" :  character.imageFileName ;
-		loadImageScripts[characterPanelIndex].LoadImage(fileName);
-		string characterName = isUser ? "You" : character.name;
+		Character imageCharacter = isUser ? null :  character;
+		loadImageScripts[characterPanelIndex].LoadCharacterImage(imageCharacter);
+		string characterName = isUser ? "You" : character.shortName;
 		loadTextScripts[characterPanelIndex].LoadText(characterName);
 
 		characterPanels[characterPanelIndex].Show(true);
@@ -112,8 +112,8 @@ public class DialoguePanelScript : MonoBehaviour {
 
 	void LoadAdvisorText() {
 		textBox.text = advisorAdvice;
-		loadImageScripts[characterPanelIndex].LoadImage(GameManager.Instance.advisor.imageFileName);
-		loadTextScripts[characterPanelIndex].LoadText(GameManager.Instance.advisor.name);
+		loadImageScripts[characterPanelIndex].LoadCharacterImage(GameManager.Instance.advisor);
+		loadTextScripts[characterPanelIndex].LoadText(GameManager.Instance.advisor.shortName);
 		textButton.interactable = false;
 
 		textPanel.Show(true);

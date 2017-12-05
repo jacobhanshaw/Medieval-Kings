@@ -9,19 +9,22 @@ public class LoadImageScript : MonoBehaviour {
 
 	 Image image;
 
-	void Start () {
+	void Awake () {
 		image = GetComponent<Image>();
 	}
 
-	public void LoadCharacterImage(string fileName) {
-		if(fileName.Length <= 0)
-			fileName = "userCharacter";
-		LoadImage(fileName);
+	public void LoadCharacterImage(Character character) {
+		string fileName = "You";
+		if(character != null)
+			fileName = character.imageName;
+		LoadImage("Icons/CharacterIcons/" + fileName);
 	}
 
-	public void LoadImage(string fileName) {
-		// TODO: FIX
-	//	image.sprite = Resources.Load(fileName) as Sprite;
+	public void LoadImage(string filePath) {
+		Texture2D imageTexture = Resources.Load(filePath) as Texture2D;
+		Rect imageRect = new Rect(0, 0, imageTexture.width, imageTexture.height);
+		image.sprite = Sprite.Create(imageTexture, imageRect, new Vector2(0.5f, 0.5f));
+		image.preserveAspect = true;
 	}
 
 	public Sprite LoadNewSprite(string FilePath, float PixelsPerUnit = 100.0f) {

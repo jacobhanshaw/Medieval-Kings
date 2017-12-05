@@ -29,7 +29,7 @@ public class FadeCanvasGroupScript : MonoBehaviour
 
 	const float START_SCALE = 0.9f;
 
-	void Start ()
+	void Awake ()
 	{
 		canvasGroup = gameObject.GetComponent<CanvasGroup> ();
 		if(canvasGroup.alpha != 1f)

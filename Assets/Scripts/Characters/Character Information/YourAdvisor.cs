@@ -2,23 +2,49 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Advisor {
-	public static float InitialLoyalty() {
+public class YourAdvisor : CharacterTemplate {
+	public override string Name() {
+		return "Your Loyal Advisor";
+	}
+
+	public override string ShortName() {
+		return "Your Loyal Advisor";
+	}
+
+	public override string ImageName() {
+		return "YourAdvisor";
+	}
+
+	public override float InitialLoyalty() {
 		return 0.9f;
 	}
 
-	public static int ArmySize() {
+	public override string Lands() {
+		return "None";
+	}
+
+	public override string KnownFor() {
+		return "Wisdom";
+	}
+
+	public override string Motto() {
+		return "Knowledge is Power";
+	}
+
+	public override string Religion() {
+		return "None";
+	}
+
+	public override int ArmySize() {
 		return 0;
 	}
 
-	public static string DossierInformation() {
+	public override string DossierInformation() {
 		return "I'm your loyal advisor.";
 	}
 
-	public static List<Dialogue> Dialogues() {
+	public override List<Dialogue> Dialogues() {
 		List<Dialogue> dialogues = new List<Dialogue>();
-		DialogueResponse[] options = null;
-
 		List<DialogueMoment> dialogueMomentsList = new List<DialogueMoment>();
 
 		dialogueMomentsList.Add(new TextDialogueMoment("My liege, our advance scouts report that the Hordes of Hidlegaard the Dread are again threatening our borders!"));

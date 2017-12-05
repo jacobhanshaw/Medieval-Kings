@@ -5,8 +5,12 @@ using UnityEngine;
 public class Character {
 
 	public enum CharacterEnum {
-		Advisor,
+		YourAdvisor,
 		LordByron,
+		LordMontesque,
+		ViscountPhilip,
+		LadyMcKrombles,
+		LordKevin,
 		Size
 	}
 
@@ -18,21 +22,35 @@ public class Character {
 	}
 
 	public string name { get; private set; }
+	public string shortName { get; private set; }
+	public string imageName { get; private set; }
 	public float loyalty { get; private set; }
+	public string lands { get; private set; }
+	public string knownFor { get; private set; }
+	public string motto { get; private set; }
+	public string religion { get; private set; }
 	public int armySize { get; private set; }
 
+	public string quickInfo { get { return QuickInfo(); } }
 	public string dossierInformation;
 	public List<Dialogue> dialogues;
 
 	public CharacterState characterState { get { return loyalty > 0.5 ? CharacterState.Friend : (loyalty > -0.5 ? CharacterState.Neutral : CharacterState.Enemy); }}
-	public string imageFileName { get { return name.Replace(" ", ""); }}
 
 	public Character(CharacterEnum characterEnum) {
-		name = GetName(characterEnum);
-		loyalty = GetInitialLoyalty(characterEnum);
-		armySize = GetArmySize(characterEnum);
-		dossierInformation = GetDossierInformation(characterEnum);
-		dialogues = GetDialogues(characterEnum);
+		CharacterTemplate characterInfo = Character.GetCharacterClass(characterEnum);
+
+		name = characterInfo.Name();
+		shortName = characterInfo.ShortName();
+		imageName = characterInfo.ImageName();
+		loyalty = characterInfo.InitialLoyalty();
+		lands = characterInfo.Lands();
+		knownFor = characterInfo.KnownFor();
+		motto = characterInfo.Motto();
+		religion = characterInfo.Religion();
+		armySize = characterInfo.ArmySize();
+		dossierInformation = characterInfo.DossierInformation();
+		dialogues = characterInfo.Dialogues();
 	}
 
 	public void ChangeLoyalty(float loyaltyChange) {
@@ -48,56 +66,30 @@ public class Character {
 			Delegates.Instance.ArmyChangedListeners(this, oldState);
 	}
 
-	string GetName(CharacterEnum characterEnum) {
-		switch(characterEnum) {
-		case CharacterEnum.LordByron:
-			return "Lord Byron";
-		case CharacterEnum.Advisor:
-			return "Your Loyal Advisor";
-		default:
-			throw new UnityException("WRONG");
-		}
+	string QuickInfo() {
+		string quickInfo = "Name: " + name;
+		quickInfo += "\n\nLands: " + lands;
+		quickInfo += "\n\nKnown for: " + knownFor;
+		quickInfo += "\n\nMotto: " + motto;
+		quickInfo += "\n\nReligion: " + religion;
+		quickInfo += "\n\nArmy: " + armySize.ToString("N0") + " soldiers";
+		return quickInfo;
 	}
 
-	int GetArmySize(CharacterEnum characterEnum) {
+	private static CharacterTemplate GetCharacterClass(CharacterEnum characterEnum) {
 		switch(characterEnum) {
+		case CharacterEnum.YourAdvisor:
+			return new YourAdvisor();
 		case CharacterEnum.LordByron:
-			return LordByron.ArmySize();
-		case CharacterEnum.Advisor:
-			return Advisor.ArmySize();
-		default:
-			throw new UnityException("WRONG");
-		}
-	}
-
-	float GetInitialLoyalty(CharacterEnum characterEnum) {
-		switch(characterEnum) {
-		case CharacterEnum.LordByron:
-			return LordByron.InitialLoyalty();
-		case CharacterEnum.Advisor:
-			return Advisor.InitialLoyalty();
-		default:
-			throw new UnityException("WRONG");
-		}
-	}
-
-	string GetDossierInformation(CharacterEnum characterEnum) {
-		switch(characterEnum) {
-		case CharacterEnum.LordByron:
-			return LordByron.DossierInformation();
-		case CharacterEnum.Advisor:
-			return Advisor.DossierInformation();
-		default:
-			throw new UnityException("WRONG");
-		}
-	}
-
-	List<Dialogue> GetDialogues(CharacterEnum characterEnum) {
-		switch(characterEnum) {
-		case CharacterEnum.LordByron:
-			return LordByron.Dialogues();
-		case CharacterEnum.Advisor:
-			return Advisor.Dialogues();
+			return new LordByron();
+		case CharacterEnum.LordMontesque:
+			return new LordMontesque();
+		case CharacterEnum.ViscountPhilip:
+			return new ViscountPhilip();
+		case CharacterEnum.LadyMcKrombles:
+			return new LadyMcKrombles();
+		case CharacterEnum.LordKevin:
+			return new LordKevin();
 		default:
 			throw new UnityException("WRONG");
 		}

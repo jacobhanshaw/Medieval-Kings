@@ -38,7 +38,7 @@ public class LordDisplayScript : MonoBehaviour {
 	public void UpdateWithLord(Character aLord) {
 		lord = aLord;
 		doneImage.SetActive(false);
-		loadImageScript.LoadCharacterImage(lord.imageFileName);
+		loadImageScript.LoadCharacterImage(lord);
 		loyaltyWheelScript.SetCharacter(lord);
 		characterSelectedScript.SetCharacter(lord);
 	}

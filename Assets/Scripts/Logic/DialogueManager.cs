@@ -14,7 +14,7 @@ public class DialogueManager : MonoBehaviour {
 		Delegates.Instance.ContinueDialogueListeners += ContinueDialoguePicked;
 		Delegates.Instance.DialogResponsePickedListeners += DialogResponsePicked;
 
-		UpdateSelectedCharacter(new Character(Character.CharacterEnum.Advisor));
+		UpdateSelectedCharacter(new Character(Character.CharacterEnum.YourAdvisor));
 	}
 
 	void OnDestroy ()

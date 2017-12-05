@@ -3,17 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager> {
+	public GameObject giveUpButton;
+	public GameObject toBattleButton;
+	public GameObject toVictoryButton;
+
 	[HideInInspector]
 	public Character[] characters = null;
+	[HideInInspector]
+	public Character advisor = new Character(Character.CharacterEnum.YourAdvisor);
 
-	public Character advisor = new Character(Character.CharacterEnum.Advisor);
-
-	public int constantEnemyArmy = 20000;
+	public int constantEnemyArmy = 12000;
 
 	private Character.CharacterEnum[] enums = { 
-		Character.CharacterEnum.LordByron,
-		Character.CharacterEnum.LordByron,
-		Character.CharacterEnum.LordByron
+		Character.CharacterEnum.LordMontesque,
+		Character.CharacterEnum.ViscountPhilip,
+		Character.CharacterEnum.LadyMcKrombles,
+		Character.CharacterEnum.LordKevin
 	};
 
 	public int friendTotalArmy { 
@@ -42,6 +47,70 @@ public class GameManager : Singleton<GameManager> {
 			}
 			return total;
 		}
+	}
+
+	void Start() {
+		Delegates.Instance.ConversationOverListeners += CheckForGameOver;
+		/*
+		giveUpButton.SetActive(false);
+		toBattleButton.SetActive(false);
+		toVictoryButton.SetActive(false);
+*/
+	}
+
+	void OnDestroy() {
+		if (Delegates.Instance != null)
+			Delegates.Instance.ConversationOverListeners -= CheckForGameOver;
+	}
+
+	public void SetDifficulty(int difficulty) {
+		if (difficulty == 2) {
+			constantEnemyArmy = 3000;
+			enums = new Character.CharacterEnum[] { 
+				Character.CharacterEnum.LordMontesque,
+				Character.CharacterEnum.LordKevin
+			};
+		} else if (difficulty == 3) {
+			constantEnemyArmy = 7000;
+			enums = new Character.CharacterEnum[] { 
+				Character.CharacterEnum.LordMontesque,
+				Character.CharacterEnum.ViscountPhilip,
+				Character.CharacterEnum.LadyMcKrombles
+			};
+
+		} else if (difficulty == 4) {
+			constantEnemyArmy = 12000;
+			enums = new Character.CharacterEnum[] { 
+				Character.CharacterEnum.LordMontesque,
+				Character.CharacterEnum.ViscountPhilip,
+				Character.CharacterEnum.LadyMcKrombles,
+				Character.CharacterEnum.LordKevin
+			};
+		}
+	}
+
+	public void CheckForGameOver(Character lastCharacter) {
+		// Quit if all negative locked in and all others are positive
+		// If all friendly give option to quit
+		// If winning give option for better ending
+
+		bool allFriendly = true;
+		bool allLockedIn = true;
+
+		bool addGiveUpOption = false;
+		bool addWinOption = friendTotalArmy > enemyTotalArmy;
+
+		foreach(Character character in characters) {
+			allFriendly &= character.characterState == Character.CharacterState.Friend;
+			allLockedIn &= character.dialogues.Count == 0;
+			addGiveUpOption |= character.characterState == Character.CharacterState.Enemy;				
+		}
+
+		addGiveUpOption |= allLockedIn;
+
+		giveUpButton.SetActive(addWinOption);
+		toBattleButton.SetActive(addWinOption);
+		toVictoryButton.SetActive(allFriendly);
 	}
 
 	public void Reset() {
