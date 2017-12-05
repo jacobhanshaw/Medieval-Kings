@@ -4,17 +4,15 @@ using UnityEngine;
 
 public class HomeScreenStartButtonScript : MonoBehaviour {
 
-	bool clickedBefore;
-
 	public void OnClick() {
-		if(clickedBefore) {
+		if(GameManager.Instance.introductionShown) {
 			// TODO: Move this to after character selection
 			GameManager.Instance.LoadCharacters();
 			Delegates.Instance.ScreenSelectListeners(Delegates.ScreenType.DOSSIER);
 		}
-		else
+		else {
+			GameManager.Instance.introductionShown = true;
 			Delegates.Instance.ScreenSelectListeners(Delegates.ScreenType.INTRODUCTION);
-
-		clickedBefore = true;
+		}
 	}
 }

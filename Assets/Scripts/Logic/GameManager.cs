@@ -12,6 +12,7 @@ public class GameManager : Singleton<GameManager> {
 	[HideInInspector]
 	public Character advisor = new Character(Character.CharacterEnum.YourAdvisor);
 
+	public bool introductionShown = false;
 	public int constantEnemyArmy = 12000;
 
 	private Character.CharacterEnum[] enums = { 
@@ -51,11 +52,9 @@ public class GameManager : Singleton<GameManager> {
 
 	void Start() {
 		Delegates.Instance.ConversationOverListeners += CheckForGameOver;
-		/*
 		giveUpButton.SetActive(false);
 		toBattleButton.SetActive(false);
 		toVictoryButton.SetActive(false);
-*/
 	}
 
 	void OnDestroy() {
@@ -94,6 +93,9 @@ public class GameManager : Singleton<GameManager> {
 		// If all friendly give option to quit
 		// If winning give option for better ending
 
+		if(lastCharacter.name == advisor.name)
+			return;
+
 		bool allFriendly = true;
 		bool allLockedIn = true;
 
@@ -108,8 +110,8 @@ public class GameManager : Singleton<GameManager> {
 
 		addGiveUpOption |= allLockedIn;
 
-		giveUpButton.SetActive(addWinOption);
-		toBattleButton.SetActive(addWinOption);
+		giveUpButton.SetActive(addGiveUpOption);
+		toBattleButton.SetActive(addWinOption && !allFriendly);
 		toVictoryButton.SetActive(allFriendly);
 	}
 

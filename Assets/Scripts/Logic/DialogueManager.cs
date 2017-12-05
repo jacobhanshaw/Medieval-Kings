@@ -60,7 +60,7 @@ public class DialogueManager : MonoBehaviour {
 
 		if(nextMoment == null) {
 			// Finished with conversation with loyal advisor
-			if(Delegates.Instance.ConversationOverListeners == null) {
+			if(selectedCharacter.name == GameManager.Instance.advisor.name) {
 				// TODO: Move load characters to character select
 				GameManager.Instance.LoadCharacters();
 				Delegates.Instance.ScreenSelectListeners(Delegates.ScreenType.DOSSIER);

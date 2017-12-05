@@ -82,7 +82,6 @@ public class ProgressBarScript : MonoBehaviour {
 	}
 
 	public void CharactersLoaded(Character[] characters) {
-		Debug.Log("Characters LOADED");
 		EnemiesChanged(null, Character.CharacterState.Neutral);
 	}
 
