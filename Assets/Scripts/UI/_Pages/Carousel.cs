@@ -102,11 +102,9 @@ namespace UnityEngine.UI.Extensions
 		private void DistributePages()
 		{
 			float offset = 0;
-			float step = Mathf.Max(Screen.width , Screen.height);
-
 			float dimension = 0;
 			float currentXPosition = 0;
-
+			float step = Mathf.Max(Screen.width , Screen.height);
 			for (int i = 0; i < _screensContainer.transform.childCount; i++)
 			{
 				RectTransform child = ((RectTransform)_screensContainer.transform.GetChild(i));

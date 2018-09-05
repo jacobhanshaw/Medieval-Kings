@@ -52,9 +52,7 @@ public class GameManager : Singleton<GameManager> {
 
 	void Start() {
 		Delegates.Instance.ConversationOverListeners += CheckForGameOver;
-		giveUpButton.SetActive(false);
-		toBattleButton.SetActive(false);
-		toVictoryButton.SetActive(false);
+		ResetButtons();
 	}
 
 	void OnDestroy() {
@@ -117,7 +115,14 @@ public class GameManager : Singleton<GameManager> {
 
 	public void Reset() {
 		characters = null;
-		Delegates.Instance.ArmyChangedListeners(null,Character.CharacterState.Size);
+		ResetButtons();
+		Delegates.Instance.ArmyChangedListeners(null, Character.CharacterState.Size);
+	}
+
+	void ResetButtons() {
+		giveUpButton.SetActive(false);
+		toBattleButton.SetActive(false);
+		toVictoryButton.SetActive(false);
 	}
 
 	public void LoadCharacters() {

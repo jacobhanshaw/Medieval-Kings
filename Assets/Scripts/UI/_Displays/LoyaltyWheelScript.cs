@@ -76,7 +76,7 @@ public class LoyaltyWheelScript : MonoBehaviour {
 			if (ricochet)
 				nextLoyalty = Mathf.Lerp(startLoyalty, goalLoyalty, t);
 			else
-				nextLoyalty = EaseInQuad(startLoyalty, goalLoyalty, t);
+				nextLoyalty = Helpers.EaseInQuad(startLoyalty, goalLoyalty, t);
 			
 			if (Mathf.Abs(goalLoyalty - nextLoyalty) < LOYALTY_DIFF_THRESHOLD) {
 				nextLoyalty = goalLoyalty;
@@ -109,11 +109,5 @@ public class LoyaltyWheelScript : MonoBehaviour {
 
 	float loyaltyToAngle(float loyalty) {
 		return -(loyalty - 1f)/2f * TOTAL_DISTANCE + MIN_ANGLE;
-	}
-
-	public float EaseInQuad(float start, float end, float value)
-	{
-		end -= start;
-		return end * value * value + start;
 	}
 }
